@@ -1,37 +1,64 @@
-## Welcome to GitHub Pages
+## Assignment 07
+## Pickling and Handling Errors
+Pickle Module
 
-You can use the [editor on GitHub](https://github.com/AbirZaher97/IntroToPythonProg/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Pickling is importing code from another code file which is taking python object like dictionary or list and saving it to a serialized file format to unpickle later and get the object format back
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Code
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Here's the code for my assignment 07 program
 
 ```markdown
-Syntax highlighted code block
+# ---------------------------------------------------------------------------- #
+# Title: Assignment 07
+# Description: Working with pickling and handling errors try and except blocks
+# ChangeLog (Who,When,What):
+# RRoot,1.1.2030,Created started script
+# <Abir Zaher>,<1/03/2022>
+# ---------------------------------------------------------------------------- #
 
-# Header 1
-## Header 2
-### Header 3
+# imports code form another code file
+import pickle
 
-- Bulleted
-- List
+# Data -------------------------------------------- #
+strFileName = 'AppData.dat'
+customerID = ""
+lstCustomer = []
+customerName = ""
 
-1. Numbered
-2. List
+# Processing -------------------------------------- #
 
-**Bold** and _Italic_ and `Code` text
+# create try and except block for invalid input
+try:
+    print("Please enter your information below")
+    print()  # print for good looks
+    customerID = int(input("Please enter your ID number: "))
+    customerName = str(input("Please enter your name: "))
+    lstCustomer=[customerID, customerName]
+    print(lstCustomer)
+except Exception as e:
+    print("Please enter integer numbers only for your ID")
+    print(e, e.__doc__, type(e), sep="\n")
 
-[Link](url) and ![Image](src)
-```
+# create try and except block to save data with pickling
+try:
+    file = open("AppData.dat", "ab")
+    # create pickle.dump to store data
+    pickle.dump(lstCustomer, file)
+    file.close()
+except Exception as e:
+    print("an error has occurred in file")
+    print(e, e.__doc__, type(e), sep="\n")
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/AbirZaher97/IntroToPythonProg/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+try:
+    file = open("AppData.dat", "rb")
+    # create pickle.load to load original data
+    fileData = pickle.load(file)
+    file.close()
+    print(fileData)
+except FileNotFoundError as e:
+    print("File does not exist!")
+    print(e, e.__doc__, type(e), sep="\n")
+except Exception as e:
+    print("There was a general error")
+    print(e, e.__doc__, type(e), sep="\n")
